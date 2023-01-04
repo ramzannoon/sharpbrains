@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="inherit_helpdesk_ticket_view_form">
+        <field name="name">inherit.helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//button[@name='action_get_attachment_tree_view']" position='after'>
+				<button class="oe_stat_button" type="object" string="Create Service Order" name="create_service_order" icon="fa-wrench" width='180px'/>
+				<button class="oe_stat_button" type="object" name="action_view_service_order" icon="fa-wrench" width='180px'>
+                	<field name="service_order_count" class="o_stat_value" widget="statinfo" string="View Service Order(s)"/>
+                </button>
+
+			</xpath>
+			<field name="ticket_type_id" position="replace">
+        	</field>
+			<field name="user_id" position="replace">
+        	</field>
+			<field name="team_id" position="replace">
+        	</field>
+			<field name="priority" position="replace">
+        	</field>
+			<field name="company_id" position="replace">
+        	</field>
+			<field name="partner_email" position="replace">
+        	</field>
+			<field name="partner_id" position="attributes">
+        		<attribute name="required">True</attribute>
+			</field>
+			<field name="tag_ids" position="after">
+        		<field name='opportunity_id'/>
+			</field>
+			<xpath expr="//field[@name='active']" position="after" >
+				<field name="ticket_type_id" attrs="{'required':True}"/>
+				<field name="user_id" attrs="{'required':True}"/>
+				<field name="team_id" attrs="{'required':True}"/>
+				<field name="priority" widget="priority"/>
+				<field name="company_id" groups="base.group_multi_company"/>
+				<field name="create_date"/>
+				<field name="channel"/>
+			</xpath>
+			<xpath expr="//field[@name='partner_name']" position="after" >
+				<field name="country_id"/>
+				<field name="state_id"/>
+				<field name="city"/>
+				<field name="partner_email"/>
+				<field name="phone"/>
+				<field name="mobile"/>
+				<field name="category_id"/>
+			</xpath>
+<!--			<field name="sale_order_id" position="replace">
+        		
+			</field>-->
+			<field name="partner_id" position="after">
+				<field name="project_id"/>
+        		<field name="work_site_id"/>
+				<field name="sale_order_id"/>
+				<field name="so_line_id"/>
+			</field>
+			<field name="description" position="replace">
+        	</field>
+			<xpath expr="//group" position="after">
+				<group>
+					<field name="description"/>
+					<field name="other_info"/>
+				</group>
+				<notebook>
+					<page string="Service Orders" name='service_order'>
+						<field name="service_orders_ids">
+							<tree>
+								<field name="sequence"/>
+								<field name="name"/>
+								<field name="stage_id"/>
+							</tree>
+						</field>
+					</page>
+				</notebook>
+			</xpath>
+        </field>
+	</record>
+	<!--<record model="ir.ui.view" id="inherit_helpdesk_sale__ticket_view_form">
+        <field name="name">inherit.helpdesk.ticket.form</field>
+        <field name="model">helpdesk.ticket</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="helpdesk_sale.helpdesk_ticket_view_form_inherit_helpdesk_invoicing"></field>
+        <field name="arch" type="xml">
+				<field name="sale_order_id" position="attributes">
+        			<attribute name="invisible">False</attribute>
+				</field>
+        </field>
+	</record>-->
+</odoo>

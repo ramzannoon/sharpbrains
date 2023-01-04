@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="1">
+		<record id="sb_sla_category_1" model="sb.sla.category">
+			<field name="name">Dispatch</field>
+		</record>
+		
+		<record id="sb_sla_category_2" model="sb.sla.category">
+			<field name="name">All Model (Depot/Backfill/SV)</field>
+		</record>
+		<record id="sb_sla_category_3" model="sb.sla.category">
+			<field name="name">Full Time</field>
+		</record>
+		
+		<record id="sb_sla_1_1" model="sb.sla">
+			<field name="name">SBD 4H Response</field>
+			<field name='sla_category_id' ref='sb_sla_category_1'/>
+		</record>
+		<record id="sb_sla_1_2" model="sb.sla">
+			<field name="name">NBD (1 Hour TOT)</field>
+			<field name='sla_category_id' ref='sb_sla_category_1'/>
+		</record>
+		<record id="sb_sla_1_3" model="sb.sla">
+			<field name="name">T&amp;M Hourly Pricing</field>
+			<field name='sla_category_id' ref='sb_sla_category_1'/>
+		</record>
+		
+		<record id="sb_sla_2_1" model="sb.sla">
+			<field name="name">Half Day</field>
+			<field name='sla_category_id' ref='sb_sla_category_2'/>
+		</record>
+		<record id="sb_sla_2_2" model="sb.sla">
+			<field name="name">Full Day</field>
+			<field name='sla_category_id' ref='sb_sla_category_2'/>
+		</record>
+		
+		<record id="sb_sla_3_1" model="sb.sla">
+			<field name="name">Monthly Rate</field>
+			<field name='sla_category_id' ref='sb_sla_category_3'/>
+		</record>
+
+	</data>
+</odoo>

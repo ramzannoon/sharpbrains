@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="inherit_res_partner_view_form">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="base.view_partner_form"></field>
+        <field name="arch" type="xml">
+        	<!--<xpath expr="/form/sheet/group[1]" position='after'>
+        		<group colspan="4" col="4">
+        			<field name="pc"/>
+        			<field name="sdm"/>
+        			<field name="client_sdm"/>
+					<field name="customer_rank"  widget="checkbox"/>
+        		</group>
+        	</xpath>-->
+			<field name='vat' position="before">
+        		<field name='x_region' required="1"/>
+			</field>
+			<field name='company_type' position='after'>
+        		<button name='cal_display_name' type='object' string='Update Display Name' groups='base.group_erp_manager'/>
+			</field>
+			<xpath expr="//page[@name='contact_addresses']" position="attributes">
+				<attribute name='string'>Worksites,Contacts &amp; Addresses</attribute>
+			</xpath>
+<!--			<xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group/group/field[@name='name']" position="attributes">
+				<attribute name='string'>End Customer</attribute>
+			</xpath>-->
+			<xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group/group/field[@name='name']" position="after">
+				<field name="site_poc"/>
+			</xpath>
+			<xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group/group/field[@name='mobile']" position="after">
+				<field name="tz"/>
+				<field name="calendar_id"/>
+				<field name="instruction"/>
+				<field name="city" invisible="1"/>
+			</xpath>
+			
+			<xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group/group/div/div[@name='div_address']" position="replace">
+				<div class="o_address_format" name="div_address">
+	                <field name="street" placeholder="Street..." class="o_address_street"/>
+	                <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+					<field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+	                <field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+					<field name="city_id" placeholder="City" class="o_address_city"/>
+	                <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+	            </div>
+			</xpath>
+			<xpath expr="//page[@name='contact_addresses']/field[@name='child_ids']/form/sheet/group" position="after">
+				<group col="6" colspan="6">
+					<field name="assigned_worker_id"/>
+					<field name="backfill_engineer_id"/>
+					<field name="secondary_backfill_id"/>
+				</group>
+			</xpath>
+			<!--<field name="city" position="attributes">
+				<attribute name="invisible">True</attribute>
+        	</field>-->
+        	<xpath expr="//div[@class='o_address_format']" position="replace">
+				<div class="o_address_format">
+                    <field name="street" placeholder="Street..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                    <field name="street2" placeholder="Street 2..." class="o_address_street" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+	                <field name="country_id" placeholder="Country" class="o_address_country"  attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)],'required':True}"/>
+					<field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)],'required':True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+					<field name="city_id" placeholder="City" class="o_address_city" context="{'default_state_id': state_id, 'default_country_id': country_id}" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)],'required':True}"/>
+                    <field name="zip" placeholder="ZIP" class="o_address_zip" attrs="{'readonly': [('type', '=', 'contact'),('parent_id', '!=', False)]}"/>
+                    
+                </div>
+        	</xpath>
+				
+			<field name="vat" position="after">
+				<field name="city" invisible="1"/>
+        	</field>
+        	<xpath expr="/form/sheet/notebook/page[@name='internal_notes']" position="after">
+        		<page name="project_details" string="Project Details">
+        			<field name='project_details_ids' default_order="seq asc" >
+								<tree> 
+									<field name="project_id"/>
+									<field name="job_id" />
+								</tree>
+								<form>
+									<sheet>
+										<group col="4" colspan="4">
+											<field name="project_id"/>
+											<field name="job_id" />
+										</group>
+									</sheet>	
+							     </form>
+							</field>
+        		</page>
+        	</xpath>
+        
+        </field>
+
+	</record>
+	
+	<record model="ir.ui.view" id="view_partner_projects_form">
+        <field name="name">partner.projects.form</field>
+        <field name="model">partner.projects</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Partner Projects">
+				<sheet>
+					
+                    <group colspan="2" col="2">
+						
+						<field name="name" required = "1"/>
+                    </group>
+                   
+				</sheet>
+               
+
+			</form>
+        </field>	
+	</record>
+	
+	
+	<record id="view_partner_projects_tree" model="ir.ui.view">
+		<field name="name">partner.projects.tree</field>
+		<field name="model">partner.projects</field>
+		<field name="arch" type="xml">
+			<tree string="Partner Projects">
+			
+			
+			
+						
+						<field name="name"/>
+                
+               
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="action_partner_projects">
+        <field name="name">Partner Projects</field>
+        <field name="res_model">partner.projects</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first Partner Projects</p>
+        </field>
+    </record>
+	
+	<record model="ir.ui.view" id="view_end_customer_form">
+        <field name="name">res.partner.end.customer.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Contact / Address">
+                <sheet>
+                    <field name="type" required="1" invisible="1" widget="radio" options="{'horizontal': true}"/>
+                    
+                    <hr/>
+					<group>
+						<field name="name" string="End Customer" attrs="{'readonly' : [('type', '=', 'work_site')]}"/>
+					</group>
+                    <group col="12">
+                        <group colspan="5">
+							<field name="parent_id" string="Client (Billing Customer)" domain="[('customer_rank','=',1),('type','=','contact')]" attrs="{'required' : [('type', '=', 'work_site')]}"/>
+							<field name="x_project_id" string="Project" attrs="{'required' : [('type', '=', 'work_site')]}"/>
+                            <label for="street" string="Address" attrs="{'invisible': [('type','=', 'contact')]}"/>
+                            <div attrs="{'invisible': [('type','=', 'contact')]}">
+                                <div class="o_address_format" name="div_address">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+									<field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+									<field name="city_id" placeholder="City" class="o_address_city"/>
+                                    
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                </div>
+                            </div>
+                            <field name="comment" placeholder="Internal notes..."/>
+                        </group>
+                        <group colspan="5">                           
+                            <field name="company_id" invisible="1"/>
+                        </group>
+						
+                        <group colspan="1">
+                            <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
+                        </group>
+                    </group>
+					<!--<group string="Site Contact">
+						<group string="Primary" col="8" colspan="8">
+							<field name="x_contact_name_1"/>
+                        	<field name="phone" widget="phone" string="Contact 1"/>
+                       	 	<field name="mobile" widget="phone" string="Contact 2"/>
+							<field name="email" widget="email"/>
+                		</group>
+						<group string="Secondary" col="8" colspan="8">
+							<field name="x_contact_name_2"/>
+                        	<field name="x_phone_2" widget="phone"/>
+                       	 	<field name="x_mobile_2" widget="phone"/>
+							<field name="x_email_2" widget="email"/>
+                		</group>
+						<group string="Tertiary" col="8" colspan="8">
+							<field name="x_contact_name_3"/>
+                        	<field name="x_phone_3" widget="phone"/>
+                       	 	<field name="x_mobile_3" widget="phone"/>
+							<field name="x_email_3" widget="email"/>
+                		</group>
+                	</group>
+					<group col="6" colspan="6">
+						<field name="assigned_worker_id"/>
+						<field name="backfill_engineer_id"/>
+						<field name="secondary_backfill_id"/>
+					</group>
+                    <field name="lang" invisible="True"/>
+                    <field name="user_id" invisible="True"/>
+                    <field name="image_128" invisible="1"/>-->
+                </sheet>
+            </form>
+        </field>	
+	</record>
+	
+	<record id="view_partner_end_customer_tree" model="ir.ui.view">
+		<field name="name">res.partner.end.customer.tree</field>
+		<field name="model">res.partner</field>
+		<field name="arch" type="xml">
+			<tree string="End Customer">
+				<field name="name" string="End Customer"/>
+				<field name="parent_id" string="Client (Billing Customer)"/>
+                <field name="city" string="Territory"/>
+                <field name="state_id" string="State"/>
+                <field name="country_id" string="Country"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_end_customer">
+        <field name="name">End Customer</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form,map</field>
+		<field name="domain">[('type','=','end_customer')]</field>
+		<field name="context">{'default_type':'end_customer','default_customer_rank':1}</field>
+        <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first End Customer</p>
+        </field>
+    </record>
+	
+	<record id="view_act_object_end_customer_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_partner_end_customer_tree" />
+        <field name="act_window_id" ref="action_end_customer" />
+    </record>
+    <record id="view_act_object_end_customer_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_end_customer_form" />
+        <field name="act_window_id" ref="action_end_customer" />
+    </record>
+
+	<record model="ir.ui.view" id="view_partner_worksites_form">
+        <field name="name">res.partner.form</field>
+        <field name="model">res.partner</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Contact / Address">
+                <sheet>
+                    <field name="type" required="1" invisible="1" widget="radio" options="{'horizontal': true}"/>
+                    
+                    <hr/>
+					<group>
+						<field name="name" string="Worksite" attrs="{'readonly' : [('type', '=', 'work_site')]}"/>
+					</group>
+                    <group col="12">
+                        <group colspan="5">
+							<field name="parent_id" string="Client (Billing Customer)" domain="[('customer_rank','=',1),('type','=','contact')]" attrs="{'required' : [('type', '=', 'work_site')]}"/>
+							<field name="x_project_id" string="Project" attrs="{'required' : [('type', '=', 'work_site')]}"/>
+							<field name="site_poc" string="Site POC" attrs="{'required' : [('type', '=', 'work_site')]}"/>
+                            <label for="street" string="Address" attrs="{'invisible': [('type','=', 'contact')]}"/>
+                            <div attrs="{'invisible': [('type','=', 'contact')]}">
+                                <div class="o_address_format" name="div_address">
+                                    <field name="street" placeholder="Street..." class="o_address_street"/>
+                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>
+                                    <field name="country_id" placeholder="Country" class="o_address_country" options="{&quot;no_open&quot;: True, &quot;no_create&quot;: True}"/>
+									<field name="state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'country_id': country_id, 'default_country_id': country_id, 'zip': zip}"/>
+									<field name="city_id" placeholder="City" class="o_address_city"/>
+                                    
+                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>
+                                </div>
+                            </div>
+                            <field name="comment" placeholder="Internal notes..."/>
+                        </group>
+                        <group colspan="5">
+							<field name="x_end_customer_id" string="End Customer" attrs="{'required' : [('type', '=', 'work_site')]}"/>
+                           
+                            <field name="company_id" invisible="1"/>
+                        </group>
+						
+                        <group colspan="1">
+                            <field name="image_1920" widget="image" class="oe_avatar" nolabel="1" options="{'image_preview': 'image_128'}"/>
+                        </group>
+                    </group>
+	
+					<notebook>
+						<page name="contact_details" string="Site Contact">
+							<field name="contact_detail_ids" >
+								<tree editable="bottom">
+									<field name="type" required="1"/>
+									<field name="name" required="1"/>
+									<field name="phone" widget="phone" required="1" />
+									<field name="mobile" widget="phone" required="1"/>
+									<field name="email" widget="email" required="1"/>
+								</tree>
+								<form>
+									<group col="4" colspan="4">
+										<field name="type" required="1"/>
+										<field name="name" required="1"/>
+										<field name="phone" widget="phone" required="1" />
+										<field name="mobile" widget="phone" required="1"/>
+										<field name="email" widget="email" required="1"/>
+									</group>
+								</form>
+							</field>
+						</page>
+						<page name="assingned_worker" string="Assigned Workers">
+							<field name="assigned_workers_ids" >
+								<tree editable="bottom">
+									<field name="type" required="1"/>
+									<field name="employee_id" required="1"/>
+									<field name="phone" widget="phone"/>
+									<field name="email" widget="email"/>
+								</tree>
+								<form>
+									<group col="4" colspan="4">
+										<field name="type" required="1"/>
+										<field name="employee_id" required="1"/>
+										<field name="phone" widget="phone"/>
+										<field name="email" widget="email"/>
+									</group>
+								</form>
+							</field>
+						</page>
+					</notebook>
+					
+                    <field name="lang" invisible="1"/>
+                    <field name="user_id" invisible="1"/>
+                    <field name="image_128" invisible="1"/>
+
+                </sheet>
+            </form>
+        </field>	
+	</record>
+	
+	<record id="view_partner_worksites_tree" model="ir.ui.view">
+		<field name="name">res.partner.worksites.tree</field>
+		<field name="model">res.partner</field>
+		<field name="arch" type="xml">
+			<tree string="Worksites">
+				<field name="name" string="End Customer"/>
+				<field name="parent_id" string="Customer"/>
+                <field name="city" string="Territory"/>
+                <field name="state_id" string="State"/>
+                <field name="country_id" string="Country"/>
+			</tree>
+		</field>
+	</record>
+	<record model="ir.actions.act_window" id="action_partner_worksites">
+        <field name="name">Worksite</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">tree,form,map</field>
+		<field name="domain">[('type','=','work_site')]</field>
+		<field name="context">{'default_type':'work_site','default_customer_rank':1}</field>
+        <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first Worksite</p>
+        </field>
+    </record>
+	
+	<record id="view_act_object_tree" model="ir.actions.act_window.view">
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="view_partner_worksites_tree" />
+        <field name="act_window_id" ref="action_partner_worksites" />
+    </record>
+    <record id="view_act_object_form" model="ir.actions.act_window.view">
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_partner_worksites_form" />
+        <field name="act_window_id" ref="action_partner_worksites" />
+    </record>
+
+
+
+
+
+</odoo>

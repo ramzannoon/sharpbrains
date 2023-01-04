@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="inherit_view_sale_advance_payment_inv_form">
+        <field name="name">sale.advance.payment.inv.form</field>
+        <field name="model">sale.advance.payment.inv</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_sale_advance_payment_inv"></field>
+        <field name="arch" type="xml">
+			<field name="advance_payment_method" position="before">
+        		<field name="invoice_policy"/>
+			</field>
+        </field>
+	</record>
+	<record model="ir.ui.view" id="view_sb_quotation_import_form">
+			<field name="name">sb.quotation.import.form</field>
+			<field name="model">sb.quotation.import</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="Quotation Import">
+					<field name="valid" invisible="1" />
+					<field name="import_attachment_name" invisible="1" />
+					<sheet>
+						<div class="text-left">
+							<h1>Quotation Import Process</h1>
+						</div>
+						<group colspan="4" col="4">
+							<field name="sale_order_id" invisible="1" options="{'no_quick_create': True, 'no_create_edit': True,'no_open': True}" />
+						</group>
+						<group>
+							<div>
+								<strong>For download the Excel Template Please</strong>
+								<button name="download_template" string="(Click Here)" class="oe_link" type="object" help="validate the template" />
+							</div>
+						</group>
+
+
+						<group colspan="4" col="6">
+							<div>
+								<strong>
+									<label for="import_attachment" string="Upload Template"></label>
+								</strong>
+							</div>
+							<field name="import_attachment" nolabel="1" widget="binary" filename="import_attachment_name" attrs="{'readonly':[('valid','=',True)]}" />
+							<div class="oe_right">
+								<button  class="oe_highlight" name="validate" string="Validate" type="object" help="validate the template" icon="fa-check" attrs="{'invisible':[('valid','=',True)]}" />
+
+								<button class="oe_highlight" name="confirm" string="Upload" type="object" help="Confirmed the Submission" icon="fa-upload" attrs="{'invisible':[('valid', '=',False)]}" />
+
+								<button class="oe_highlight" name="reset_import_form" string="Refresh" type="object" help="it will set each value as null" icon="fa-refresh" />
+							</div>
+						</group>
+						<group>
+							<h3 style="color:red">
+								<field class="text-center" name="message" nolabel="1" readonly="1"></field>
+							</h3>
+						</group>
+						<group string="Error Log">
+							<field name="error_log" nolabel="1" readonly="1">
+								<tree editable="bottom">
+									<field name="seq" invisible="1"></field>
+									<field name="cell"></field>
+									<field name="msg"></field>
+									<field name="reason"></field>
+								</tree>
+							</field>
+						</group>
+					</sheet>
+					<footer>
+				</footer>
+				</form>
+			</field>
+		</record>
+
+		<record model="ir.actions.act_window" id="action_sb_quotation_import">
+			<field name="name">Import Quotation</field>
+			<field name="res_model">sb.quotation.import</field>
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+	<record model="ir.ui.view" id="inherit_sale_order_project_view_form">
+        <field name="name">sale.order.project.form</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale_project.view_order_form_inherit_sale_project"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//button[@name='action_view_task']/field[@name='tasks_count']" position="replace">
+				<div class="o_field_widget o_stat_info">
+	                <span class="o_stat_value">
+	                    <field name="tasks_count" class="mr4" widget="statinfo" nolabel="1"/>
+	                    <span class="o_stat_text">Service</span>
+	                </span>
+	                <span class="o_stat_text">Order(s)</span>
+	            </div>
+			</xpath>
+        </field>
+	</record>
+	<record model="ir.ui.view" id="inherit_sale_order_view_form">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="sale.view_order_form"></field>
+        <field name="arch" type="xml">
+			<!--<field name="payment_term_id" position="after">
+        		<field name="invoice_policy" attrs="{'readonly':[('state', 'in', ['sale', 'done'])]}"/>
+			</field>-->
+			<field name="partner_invoice_id" position="after">
+        		<field name="type" attrs="{'readonly':[('state', 'in', ['sale', 'done'])]}"/>
+			</field>
+			<field name="partner_shipping_id" position="after">
+        		<field name="product_id" attrs="{'readonly': [('state', 'in', ['sale', 'done'])],'required':True}"/>
+				<button name="%(action_sb_quotation_import)d" type="action" context="{'default_sale_order_id':id}" states="draft" string="Import Quotation" class="oe_highlight"/>
+			</field>
+			<field name="partner_invoice_id" position="replace">
+			</field>
+			<field name="partner_id" position="before">
+				<field name="partner_invoice_id" context="{'default_type':'contact'}" options="{'always_reload': False,'no_quick_create': True, 'no_create_edit': True, 'no_open': True}" attrs="{'readonly':[('state','not in',['draft','sent'])]}" string='Client (Billing Customer)'/>
+        	</field>
+			<field name="partner_id" position="attributes">
+        		<attribute name="domain">[('type','=','end_customer'),('parent_id','=',partner_invoice_id)]</attribute>
+				<attribute name="string">End Customer</attribute>
+				<attribute name="options">{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+			</field>
+			<!--attribute name="string">Client (Billing Customer)</attribute>
+			<attribute name="context">{'default_type':'contact'}</attribute>-->
+			<field name="partner_id" position="after">
+        		<field name="project_id" required="1" options="{'no_create': True}" attrs="{'required':True}"/>
+			</field>
+			<field name="partner_shipping_id" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</field>
+			
+			<field name="project_id" position="attributes">
+				<attribute name="attrs">{'invisible':False}</attribute>
+			</field>
+			<xpath expr="//page[@name='order_lines']/field[@name='order_line']" position="attributes">
+				<attribute name="context">{'default_product_id':product_id}</attribute>
+			</xpath>
+			<xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_id']" position='attributes'>
+				<attribute name="invisible">True</attribute>
+			</xpath>
+			<xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='name']" position='attributes'>
+				<attribute name="invisible">True</attribute>
+			</xpath>
+			<xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='name']" position='after'>
+				<field name="order_partner_id" invisible="1"/>
+				<field name="work_site_id"/>
+				<field name="sla_category_id"/>
+				<field name="sla_category" invisible="1"/>
+				<field name="sla_id"/>
+<!--				<field name="uom" readonly="1"/>-->
+				<field name="type" invisible="1"/>
+				<field name="service_order_count" invisible="1"/>
+				
+			</xpath>
+			<xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='price_subtotal']" position='after'>
+				<button name="create_task" string="Create Service Order" type="object" class="oe_highlight" width='180px' attrs="{'invisible':['|',('type','=','On Demand'),('state','=','draft')]}"/>				
+				<button name="action_view_service_order" string="View Service Order(s)" type="object" class="oe_highlight"  width='180px' attrs="{'invisible':['|','|',('type','=','On Demand'),('sla_category','=','Full Time'),('state','=','draft')]}"/>
+				<button name="action_view_service_order" string="View Attendance" type="object" class="oe_highlight"  width='180px' attrs="{'invisible':['|',('sla_category','!=','Full Time'),('state','=','draft')]}"/>
+				
+			</xpath>
+        </field>
+	</record>
+	
+	
+</odoo>

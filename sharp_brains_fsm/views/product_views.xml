@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+	<!--<record id="inherit_project_task_create_timesheet_view_form" model="ir.ui.view">
+        <field name="name">inherit.project.task.create.timesheet.wizard.form</field>
+        <field name="model">project.task.create.timesheet</field>
+		<field name="inherit_id" ref="hr_timesheet.project_task_create_timesheet_view_form"/>
+        <field name="arch" type="xml">
+			<field name="time_spent" position="attributes">
+				<attribute name="readonly">1</attribute>
+        	</field>
+        </field>
+    </record>-->
+
+	<!--<record model="ir.ui.view" id="sb_prodcut_template_view_form">
+        <field name="name">product.template.form</field>
+        <field name="model">product.template</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="purchase.view_product_template_purchase_buttons_from"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//page[@name='general_information']" position='after'>
+				<page string='Price List' name='price_list'>
+					<field name="product_price_list">
+						<tree>
+							<field name="country_id"/>
+							<field name="state_id"/>
+							<field name="city_id"/>
+							<field name="sla_category_id"/>
+							<field name="sla_id"/>
+							<field name='uom'/>
+							<field name="rate"/>
+						</tree>
+						<form>
+							<sheet>
+								<group col="4" colspan="4">
+									<field name="country_id"/>
+									<field name="state_id"/>
+									<field name="city_id"/>
+									<field name="sla_category_id"/>
+									<field name="sla_id"/>
+									<field name='uom'/>
+									<field name="rate"/>
+								</group>
+							</sheet>
+						</form>
+					</field>
+				</page>
+				
+			</xpath>
+        </field>
+	</record>-->
+	
+	<record model="ir.ui.view" id="sb_sla_category_view_form">
+        <field name="name">sb.sla.category.form</field>
+        <field name="model">sb.sla.category</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<field name="name"/>
+					</group>
+				</sheet>
+			</form>
+        </field>
+	</record>
+	<record model="ir.ui.view" id="sb_sla_category_view_tree">
+        <field name="name">sb.sla.category.tree</field>
+        <field name="model">sb.sla.category</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+			</tree>
+        </field>
+	</record>
+	<record id="action_sb_sla_category" model="ir.actions.act_window">
+        <field name="name">SLA Category</field>
+        <field name="res_model">sb.sla.category</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+	
+	
+	<record model="ir.ui.view" id="sb_sla_view_form">
+        <field name="name">sb.sla.form</field>
+        <field name="model">sb.sla</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group>
+						<field name="name"/>
+						<field name="sla_category_id"/>
+					</group>
+				</sheet>
+			</form>
+        </field>
+	</record>
+	<record model="ir.ui.view" id="sb_sla_view_tree">
+        <field name="name">sb.sla.tree</field>
+        <field name="model">sb.sla</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+				<field name="sla_category_id"/>
+			</tree>
+        </field>
+	</record>
+	<record id="action_sb_sla" model="ir.actions.act_window">
+        <field name="name">SLA</field>
+        <field name="res_model">sb.sla</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<!--<record model="ir.ui.view" id="sb_sla_view_form">
+        <field name="name">sb.sla.form</field>
+        <field name="model">sb.sla</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+			<form>
+				<sheet>
+					<group col="4" colspan="4">
+						<field name="product_id"/>
+						<field name="country_id"/>
+						<field name="city_id"/>
+						<field name="sla_category_id"/>
+						<field name="sla_id"/>
+						<field name='uom'/>
+						<field name="rate"/>
+					</group>
+				</sheet>
+			</form>
+        </field>
+	</record>-->
+	<!--<record model="ir.ui.view" id="product_template_pricelist_view_tree">
+        <field name="name">product.template.pricelist.tree</field>
+        <field name="model">product.template.pricelist</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="product_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+				<field name="country_id" />
+				<field name="state_id" context="{'default_country_id':country_id}"/>
+				<field name="city_id" context="{'default_country_id':country_id,'default_state_id':state_id}"/>
+				<field name="sla_category_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+				<field name="sla_id" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+				<field name='uom'/>
+				<field name="rate"/>
+			</tree>
+        </field>
+	</record>
+	<record id="action_product_template_pricelist" model="ir.actions.act_window">
+        <field name="name">Prodcut Pricelist</field>
+        <field name="res_model">product.template.pricelist</field>
+        <field name="view_mode">tree</field>
+    </record>-->
+	
+	
+</odoo>

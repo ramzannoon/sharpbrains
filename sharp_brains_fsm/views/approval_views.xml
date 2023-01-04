@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="inherit_approval_category_view" model="ir.ui.view">
+        <field name="name">inherit.approval.category.view</field>
+        <field name="model">approval.category</field>
+		<field name="inherit_id" ref="approvals.approval_category_view_form"></field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+			<field name="has_location" position="after">
+<!--        		<field name="has_project" string="Project" widget="radio" options="{'horizontal': true}"/>
+-->				<field name="has_task" string="Task" widget="radio" options="{'horizontal': true}"/>
+			</field>
+        </field>
+	</record>
+	
+	 <record id="inherit_approval_request_view_form" model="ir.ui.view">
+        <field name="name">inherit.approval.request.view.form</field>
+        <field name="model">approval.request</field>
+		<field name="inherit_id" ref="approvals.approval_request_view_form"></field>
+        <field name="priority">10</field>
+        <field name="arch" type="xml">
+			<field name="is_manager_approver" position="after">
+<!--				<field name="has_project"/>
+-->				<field name="has_task"/>
+        	</field>
+			<field name="category_id" position="after">
+				<field name="task_id" attrs="{'invisible':[('has_task','==','no')], 'required': [('has_task','==','required')], 'readonly': [('request_status','not in',('new', 'pending'))]}"/>
+        	</field>
+			<field name="reference" position="after">
+				<field name="project_id" attrs="{'invisible':True}"/>
+        	</field>
+			
+        </field>
+	 </record>
+</odoo>
