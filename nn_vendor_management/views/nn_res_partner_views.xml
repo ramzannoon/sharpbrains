@@ -77,7 +77,7 @@
       
      <menuitem id="menu_nn_vendor_management"
         name="Vendor"
-        web_icon="nn_vendor_management,static/description/icon.png"       
+        web_icon="nn_vendor_management,static/description/vendor.png"       
         groups="nn_vendor_management.group_vendor_management_user"
         /> 
       
