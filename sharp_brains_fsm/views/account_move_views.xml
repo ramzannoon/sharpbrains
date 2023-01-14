@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="inherit_view_account_move_form">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="account.view_move_form"></field>
+        <field name="arch" type="xml">
+			<field name="name" position="attributes">
+				<attribute name='string'>Description</attribute>
+			</field>
+			<field name="product_id" position="attributes">
+				<attribute name='string'>Work Type</attribute>
+			</field>
+			<field name="product_id" position="after">
+				<field name="work_site_id"/>
+				<field name="country_id"/>
+				<field name="sla_category_id"/>
+				<field name="sla_id"/>
+			</field>
+        </field>
+	</record>
+</odoo>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+   <!--<record id='hr_recruitment.hr_applicant_comp_rule' model='ir.rule'>
+		<field eval="False" name="global"/>
+	    <field name="groups" eval="[(4,ref('base.group_erp_manager')),(4,ref('hr_recruitment.group_hr_recruitment_manager'))]"/>
+	</record>-->
+	<record id="hr_recruitment.group_hr_recruitment_user" model="res.groups">
+        <field name="name">Officer</field>
+        <field name="category_id" ref="base.module_category_human_resources_recruitment"/>
+    </record>
+	<function name="write" model="ir.model.data">
+	   <function name="search" model="ir.model.data">
+	       <value eval="[('module', '=', 'hr_recruitment'), ('name', '=', 'hr_applicant_comp_rule')]"/>
+	   </function>
+	   <value eval="{'noupdate': False}" />
+	
+	   </function>
+	      <record id="hr_recruitment.hr_applicant_comp_rule" model="ir.rule">
+		    <field name="groups" eval="[(4,ref('base.group_erp_manager')),(4,ref('hr_recruitment.group_hr_recruitment_manager'))]"></field>
+		</record>
+	    <function name="write" model="ir.model.data">
+	        <function name="search" model="ir.model.data">
+	            <value eval="[('module', '=', 'hr_recruitment'), ('name', '=', 'hr_applicant_comp_rule')]"/>
+	        </function>
+	        <value eval="{'noupdate': True}" />
+	</function>
+	
+	<function name="write" model="ir.model.data">
+	   <function name="search" model="ir.model.data">
+	       <value eval="[('module', '=', 'hr'), ('name', '=', 'hr_employee_comp_rule')]"/>
+	   </function>
+	   <value eval="{'noupdate': False}" />
+	
+	   </function>
+	      <record id="hr.hr_employee_comp_rule" model="ir.rule">
+		    <field name="groups" eval="[(4,ref('base.group_erp_manager')),(4,ref('hr.group_hr_user')),(4,ref('hr.group_hr_manager'))]"></field>
+		</record>
+	    <function name="write" model="ir.model.data">
+	        <function name="search" model="ir.model.data">
+	            <value eval="[('module', '=', 'hr'), ('name', '=', 'hr_employee_comp_rule')]"/>
+	        </function>
+	        <value eval="{'noupdate': True}" />
+	</function>
+	
+	 <record id='hr_applicant_recruitment_officer_rule' model='ir.rule'>
+	    <field name='name'>Applicant Hr Recruitment Officer rule</field>
+	    <field name='model_id' ref='hr_recruitment.model_hr_applicant'/>
+	    <field name='domain_force'>['|', ('company_id', '=', False), ('company_id', 'in', company_ids),('team_id','=',user.x_recruitment_team_id.id)]</field>
+	    <field name='perm_create' eval='1'/>
+	    <field name='perm_write' eval='1'/>
+	    <field name='perm_unlink' eval='1'/>
+	    <field name='perm_read' eval='1'/>
+	    <field name="groups" eval="[(4,ref('hr_recruitment.group_hr_recruitment_user'))]"/>
+	</record>
+	
+	<record id='hr_employee_profile_rule' model='ir.rule'>
+	    <field name='name'>Hr Profile User rule</field>
+	    <field name='model_id' ref='hr.model_hr_employee'/>
+	    <field name='domain_force'>['|', ('company_id', '=', False), ('company_id', 'in', company_ids),('user_id','=',user.id)]</field>
+	    
+	    <field name='perm_create' eval='0'/>
+	    <field name='perm_write' eval='1'/>
+	    <field name='perm_unlink' eval='0'/>
+	    <field name='perm_read' eval='1'/>
+	    <field name="groups" eval="[(4,ref('base.group_user'))]"/>
+	</record>
+</odoo>

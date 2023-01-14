@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record model="ir.ui.view" id="inherit_hr_employee_view_form">
+        <field name="name">inherit.hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="hr.view_employee_form"></field>
+        <field name="arch" type="xml">
+			<header position='inside'>
+				<button name="set_current" states="Draft" type="object"  string="Set Current" class="oe_highlight"/>
+				<button name="set_former" states="Current" type="object"  string="Set Former"/>
+				<button name="set_draft" states="Current,Former" type="object"  string="Reset to Draft" class="oe_highlight"/>
+				<field name="state" widget='statusbar'/>
+				
+			</header>
+			<field name="mobile_phone" position="replace">
+        	</field>
+			<field name="work_phone" position="replace">
+        	</field>
+			<field name="work_email" position="replace">
+        	</field>
+			<field name="department_id" position="replace">
+        	</field>
+			<field name="parent_id" position="replace">
+        	</field>
+			<field name="coach_id" position="replace">
+        	</field>
+			<field name="job_title" position="replace">
+        	</field>
+			
+			<xpath expr="//page[@name='public']/div/div/group[1]" position='replace'>
+			</xpath>
+			<xpath expr="//page[@name='personal_information']/group[1]" position='replace'>
+			</xpath>
+			<xpath expr="//page[@name='personal_information']" position='inside'>
+				<group>
+					<group name='citizenship' string='Citizenship and Other Information'>
+						<field name="country_id" options="{'no_open': True, 'no_create': True}"/>
+                        <field name="identification_id" groups="hr.group_hr_user"/>
+                        <field name="passport_id" groups="hr.group_hr_user"/>
+						<field name="bank_account_id" context="{'default_partner_id': address_home_id}"/>
+					</group>
+					<group name='private_contact' string='Private Contact Information'>
+                        <field name="address_home_id" context="{'show_address': 1,'default_type': 'private','form_view_ref': 'base.res_partner_view_form_private'}" options="{'always_reload':True,'highlight_first_line': True}"/>
+                        <field name="emergency_contact"/>
+                        <field name="emergency_phone" class="o_force_ltr"/>
+						<div class="o_row" name="div_km_home_work">
+                            <field name="km_home_work" groups="hr.group_hr_user"/>
+                            <span>Km</span>
+                        </div>
+					</group>
+					<group name='status' string='Status'>
+						
+                         <field name="spouse_complete_name" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
+                         <field name="spouse_birthdate" attrs="{'invisible': [('marital', 'not in', ['married', 'cohabitant'])]}" groups="hr.group_hr_user"/>
+						 <field name="children"/>
+					</group>
+					
+					<group name='work_permit' string='Work Permit'>
+						<field name="visa_no" />
+                        <field name="permit_no"/>
+                        <field name="visa_expire"/>
+					</group>
+					<group name='education' string="Education">
+                        <field name="certificate" attrs="{'required':True}"/>
+                        <field name="study_field" attrs="{'required':True}"/>
+                        <field name="study_school"/>
+                    </group>
+					<group name="background" string="Background Verification">
+                        <field name="bgv_status"/>
+                        <field name="background_check_report" filename='background_check_report_name'/>
+                        <field name="background_check_report_name" invisible="1"/>
+						<field name="drug_screen_report" filename='drug_screen_report_name'/>
+                        <field name="drug_screen_report_name" invisible="1"/>
+                    </group>
+				</group>
+				<group>
+					<field name="additional_info"/>
+				</group>
+			</xpath>
+			<xpath expr="//group[@name='managers']" position='before'>
+				<group string='Contact Information'>
+					<field name="address_id" context="{'show_address': 1}" options="{&quot;always_reload&quot;: True, &quot;highlight_first_line&quot;: True}"/>
+					<field name="work_location"/>
+					
+					
+				</group>
+				<group string='Position'>
+					<field name="department_id"/>
+					
+					<field name="parent_id"/>
+                     <field name="coach_id"/>
+					<field name="resource_calendar_id" required="1"/>
+                    <field name="tz"/>
+				</group>
+				
+			</xpath>
+<!--			<xpath expr="//group[@name='managers']" position="replace">
+			</xpath>-->
+			<xpath expr="//page[@name='public']/div/div/group[4]" position='after'>
+				<group>
+					<field name="notes"/>
+				</group>
+			</xpath>
+			<xpath expr="//page[@name='public']/div/div/group[4]" position='replace'>
+			</xpath>
+			<xpath expr="//group[1]" position='before'>
+				<group col="4" colspan="4">
+<!--					<field name='employee_type' required="1"/>
+
+-->
+					<field name="partner_name" string="First Name" attrs="{'required':True}"/>
+					<field name="last_name" string="Last Name" attrs="{'required':True}"/>
+					<field name="job_id" attrs="{'required':True}"/>
+					<field name='employee_type' required="1"/>
+					<field name='type' required="1"/>
+					<field name='employee_source' required="1"/>
+					<field name='employee_salary' required="1"/>
+<!--					<field name='day_rate'/>
+					<field name='hourly_rate'/>-->
+					<!--<field name='experience'/>-->
+					
+					<!--<field name='work_right_verified'/>-->
+<!--					<field name='notice_period'/>
+-->					<field name='vendor_id'/>
+<!--					<field name='shortlist_fte'/>
+-->					<!--<field name='local_language_level'/>
+					<field name='english_language_level'/>-->
+					
+					
+				</group>
+				<group string="Employee Information">
+					<group>
+						
+						<field name="gender" attrs="{'required':True}"/>
+						<field name="country_of_birth" groups="hr.group_hr_user"/>
+						<field name="marital" />
+						<field name="categ_ids" widget="many2many_tags" string='Tags' options="{'color_field': 'color', 'no_create_edit': True}"/>
+						<field name="work_email" widget="email" string="Email" attrs="{'required':True}"/>
+						<field name="work_phone" widget="phone" string="Phone"/>
+						<field name="mobile_phone" widget="phone" string="Whatsapp Contact" attrs="{'required':True}"/>
+						<field name="skyp_id" string="Skype Contact"/>
+						<field name="degree_id"/>
+					</group>
+					<group>
+						<field name="birthday" />
+                        <!--<field name="place_of_birth" groups="hr.group_hr_user"/>-->
+						<field name="applicant_nature" />
+						<field name="recruiter_id" />
+						<field name="priority" widget="priority"/>
+						<field name="medium_id" />
+						<field name="source_id" />
+					</group>
+				</group>
+				<group string="Employee Address">
+					<group>
+						<field name="house_no" />
+						<field name="country" />
+						<field name="city" />
+						
+					</group>
+					<group>
+						<field name="street" />
+                        <field name="state_id" />
+						<field name="zip" />
+						
+					</group>
+				</group>
+				
+				<group >
+					<group string="Job">
+						<field name="applied_job_id" />
+						<field name="opportunity_id" />
+						<field name="customer" />
+						<field name="cusotmer_project" />
+						<field name="department_id" />
+					</group>
+					<group string="Contract">
+						<label for="salary_expected"/>
+                        <div class="o_row">
+                            <field name="salary_expected"/>
+                            <span attrs="{'invisible':[('salary_expected_extra','=',False)]}"> + </span>
+                            <field name="salary_expected_extra" placeholder="Extra advantages..."/>
+                        </div>
+                        <label for="salary_proposed"/>
+                        <div class="o_row">
+                            <field name="salary_proposed"/>
+                            <span attrs="{'invisible':[('salary_proposed_extra','=',False)]}"> + </span>
+                            <field name="salary_proposed_extra" placeholder="Extra advantages..."/>
+                        </div>
+                        <field name="availability"/>
+						<field name="notice_period"/>
+                        <field name="applicant_id"/>
+						
+						
+					</group>
+				</group>
+				
+				<group string="Internal Notes">
+					<group>
+						<field name="shortlisted_fte" />
+						<field name="dispatch" />
+						<field name="part_time" />
+						<field name="cv_review_score" />
+						<field name="interview_result_score" />
+						
+					</group>
+					<group>
+						<field name="experience" />
+						<field name="work_rights_status" />
+                        <field name="primary_category" />
+						<field name='work_right' filename='work_right_name'/>
+						<field name='work_right_name' invisible="1"/>
+					</group>
+				
+				</group>
+				
+			</xpath>
+			<xpath expr="//page[@name='hr_settings']" position="before">
+				<page string="Agreed Rates">
+					<group string="Dispatch" col="4" colspan="4">
+						<field name="hourly_rate"/>
+						<field name="dispatch_half_day_rate"/>
+						<field name="day_rate" string="Full Day Rate"/>
+						<field name="dispatch_monthly_rate"/>
+						<label for="dispatch_ooh_uplift_from" string="OOH uplift"/>
+                        <div class="o_row">                           
+							<div class="o_row">
+								<span>Between</span>
+								<field name="dispatch_ooh_uplift_from" class="oe_inline col-lg-2" nolabel="1"/>
+	                            <span> - </span>
+	                            <field name="dispatch_ooh_uplift_to" class="oe_inline col-lg-2" nolabel="1" />
+                                
+                            </div>
+                        </div>
+						<label for="dispatch_weekend_uplift_from" string="Weekend/Public Holidays Uplift"/>
+                        <div class="o_row">                           
+							<div class="o_row">
+								<span>Between</span>
+								<field name="dispatch_weekend_uplift_from" class="oe_inline col-lg-2" nolabel="1"/>
+	                            <span> - </span>
+	                            <field name="dispatch_weekend_uplift_to" class="oe_inline col-lg-2" nolabel="1" />
+                                
+                            </div>
+                        </div>
+						<field name="dispatch_milage"/>
+					</group>
+					<group string="FTE" col="4" colspan="4">
+						<field name="fte_hourly_rate"/>
+						<field name="fte_half_day_rate"/>
+						<field name="fte_day_rate" string="Full Day Rate"/>
+						<field name="fte_monthly_rate"/>
+						<label for="fte_ooh_uplift_from" string="OOH uplift"/>
+                        <div class="o_row">                           
+							<div class="o_row">
+								<span>Between</span>
+								<field name="fte_ooh_uplift_from" class="oe_inline col-lg-2" nolabel="1"/>
+	                            <span> - </span>
+	                            <field name="fte_ooh_uplift_to" class="oe_inline col-lg-2" nolabel="1" />
+                                
+                            </div>
+                        </div>
+						<label for="dispatch_weekend_uplift_from" string="Weekend/Public Holidays Uplift"/>
+                        <div class="o_row">                           
+							<div class="o_row">
+								<span>Between</span>
+								<field name="dispatch_weekend_uplift_from" class="oe_inline col-lg-2" nolabel="1"/>
+	                            <span> - </span>
+	                            <field name="dispatch_weekend_uplift_to" class="oe_inline col-lg-2" nolabel="1" />
+                                
+                            </div>
+                        </div>
+						<field name="dispatch_milage"/>
+					</group>
+				</page>
+				<page string='Education' name='education'>
+						<field name='education_ids'>
+							<tree>
+								<field name="institute_id"/>
+								<field name="degree_id"/>
+								<field name="field_of_study"/>
+								<field name="start_date"/>
+								<field name="end_date"/>
+							</tree>
+							<form>
+								<group>
+									<field name="institute_id"/>
+								</group>
+								<group  col="4" colspan="4">
+									<field name="degree_id" />
+									<field name="field_of_study"/>
+									<field name="start_date"/>
+									<field name="end_date"/>
+								</group>
+							</form>
+						</field>
+					</page>
+					<page string='Employment History' name='employment_history'>
+						<field name='experience_ids'>
+							<tree>
+								<field name="institute_id"/>
+								<field name="job_title"/>
+								<field name="currently_working"/>
+								<field name="start_date"/>
+								<field name="end_date"/>
+								<field name="description"/>
+								<field name="work_experience" filename="work_rights_copy_name"/>
+								<field name="work_experience_name" invisible="1"/>
+							</tree>
+							<form>
+								<group>
+									<field name="institute_id"/>
+								</group>
+								<group  col="4" colspan="4">
+									<field name="job_title"/>
+									<field name="currently_working"/>
+									<field name="start_date"/>
+									<field name="end_date" attrs="{'invisible':[('currently_working','=',True)],'required':[('currently_working','=',False)]}"/>
+								</group>
+								<group>
+									<field name="description"/>
+									<field name="work_experience" filename="work_rights_copy_name"/>
+									<field name="work_experience_name" invisible="1"/>
+								</group>
+								
+							</form>
+						</field>
+					</page>
+					
+					<page string='Certification' name='certification'>
+						<field name='certification_ids'>
+							<tree>
+								<field name="type"/>
+								<field name="title"/>
+								<field name="number"/>
+								<field name="issue_date"/>
+								<field name="expiry_date"/>
+								<field name="limited_license"/>
+							</tree>
+							<form>
+								<group>
+									<field name="type"/>
+								</group>
+								<group  col="4" colspan="4">
+									<field name="title"/>
+									<field name="number"/>
+									<field name="issue_date"/>
+									<field name="expiry_date"/>
+								</group>
+								<group>
+									<field name="limited_license"/>
+								</group>
+							</form>
+						</field>
+					</page>
+					<page string='Languages' name='languages'>
+						<field name='language_ids'>
+							<tree>
+								<field name="language_id"/>
+								<field name="level_id"/>
+								<field name="is_native"/>
+							</tree>
+							<form>
+								<group  col="4" colspan="4">
+									<field name="language_id"/>
+									<field name="level_id" options="{'no_open': True, 'no_create': True, 'no_edit':True}"/>
+									<field name="is_native"/>
+								</group>
+								
+							</form>
+						</field>
+					</page>
+					<page string='Requirements' name='requirements'>
+						<field name='requirement_ids'>
+							<tree>
+								<field name="sequence"/>
+								<field name="skill_type"/>
+								<field name="skill_id"/>
+								<field name="level" attrs="{'invisible':[('skill_type','=','Equipment')]}"/>
+								<field name="availablity" attrs="{'invisible':[('skill_type','=','Skillset')]}"/>
+							</tree>
+							<form>
+								<group  col="4" colspan="4">
+									<field name="sequence"/>
+									<field name="skill_type"/>
+									<field name="skill_id"/>
+									<field name="level" attrs="{'invisible':[('skill_type','=','Equipment')]}"/>
+									<field name="availablity" attrs="{'invisible':[('skill_type','=','Skillset')]}"/>
+								</group>
+								
+							</form>
+						</field>
+					</page>
+					<page string='Internal Evaluation' name='internal_evaluation'>
+						<field name='internal_evalaution_ids'>
+							<tree>
+								<field name="sequence"/>
+								<field name="internal_evaluation_id" string='Internal Evaluation'/>
+								<field name="level"/>
+							</tree>
+							<form>
+								<group>
+									<field name="sequence"/>
+									<field name="internal_evaluation_id"/>
+									<field name="level"/>
+								</group>
+								
+							</form>
+						</field>
+					</page>
+					<page string='Documents' name='documents'>
+						<field name='document_ids'>
+							<tree>
+								<field name="sequence"/>
+								<field name="document_id"/>
+								<field name="attachment" filename='attachment_name'/>
+								<field name="attachment_name" invisible='1'/>
+							</tree>
+							<form>
+								<group>
+									<field name="sequence"/>
+									<field name="document_id"/>
+									<field name="attachment" filename='attachment_name'/>
+									<field name="attachment_name" invisible='1'/>
+								</group>
+								
+							</form>
+						</field>
+					</page>
+					<page name="summary" string="Application Summary">
+                	 	<field name="application_summary" placeholder="Feedback of interviews..."/>
+					</page>
+					<page string='Territories' name='territories'>
+						<field name='territory_ids'>
+							<tree>
+								<field name="country_id"/>
+								<field name="state_id"/>
+                                <field name="name"/>
+								<field name="primary_assignment_id"/>
+                            </tree>
+						</field>
+					</page>
+					<page string='Service Order Info' name='service_order'>
+						<group col="4" colspan="4">
+							<field name="esclation"/>
+							<field name="completed_taks"/>
+						</group>
+						<group string="Service Order Details">
+						<field name='job_ids' nolabel="1">
+						<tree editable="bottom">
+							<field name='job_id'/>
+							<field name='day_rate'/>
+							<field name='hourly_rate'/>
+							<field name='total_jobs'/>
+							<field name='avg_rating'/>
+							<field name='last_assignment'/>
+						</tree>
+					</field>
+				</group>
+					</page>
+			</xpath>
+        </field>
+    </record>
+	
+	<!--<record model="ir.ui.view" id="inherit_hr_employee_view_form_2">
+        <field name="name">inherit.hr.employee.form2</field>
+        <field name="model">hr.employee</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="hr_contract.hr_hr_employee_view_form2"></field>
+        <field name="arch" type="xml">
+			<button name="%(hr_contract.act_hr_employee_2_hr_contract)d" position="attributes">
+				<attribute name="attrs">{'invisible':[('type','!=','Payroll')]}</attribute>
+			</button>
+				
+        </field>
+	</record>-->
+	<!--<record id="hr_employee_view_map" model="ir.ui.view">
+        <field name="name">hr.employee.view.map</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <map res_partner="partner_id">
+                <field name="partner_id" string="Employees"/>
+            </map>
+        </field>
+    </record>
+	
+	<record id="crm.crm_lead_action_pipeline" model="ir.actions.act_window">
+    		<field name="view_mode"></field>
+	</record>-->
+		
+</odoo>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<odoo>
+	
+
+	<menuitem
+        id="menu_hr_recruitment_skill"
+        name="Skill Sets"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        action="action_hr_jobs_requirements"
+        groups="base.group_erp_manager"
+        sequence="2"/>
+
+	<menuitem
+        id="menu_hr_recruitment_internal_evaluation"
+        name="Internal Evaluation"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        action="action_hr_jobs_internal_evaluation"
+        groups="base.group_erp_manager"
+        sequence="3"/>
+	
+	<menuitem
+        id="menu_hr_recruitment_documents"
+        name="Documents"
+        parent="hr_recruitment.menu_hr_recruitment_configuration"
+        action="action_hr_jobs_documents"
+        groups="base.group_erp_manager"
+        sequence="3"/>
+	
+	<!--Contacts Menu-->
+	<menuitem id="menu_partner_category_partner_projects"
+        action="action_partner_projects"
+        name="Partner Projects"
+        sequence="2" parent="contacts.res_partner_menu_config"
+        groups="base.group_erp_manager"
+        />
+	<menuitem id="menu_sb_territory" name="Territories" 
+	action="action_sb_territory" parent="project.menu_project_config" 
+	sequence="15" groups="base.group_erp_manager,project.group_project_manager"/>
+	
+	<menuitem id="menu_sb_location" name="Work Sites" 
+	action="action_sb_location" parent="project.menu_project_config" 
+	sequence="20" groups="base.group_erp_manager,project.group_project_manager"/>
+	
+	<menuitem id="menu_project_team" name="Project Teams" 
+	action="action_project_team" parent="project.menu_project_config" 
+	sequence="25" groups="base.group_erp_manager,project.group_project_manager"/>
+	
+	
+	<menuitem id="menu_sb_sla" name="SLA" 
+	action="sharp_brains.action_sb_sla" parent="project.menu_project_config" 
+	sequence="30" groups="base.group_erp_manager,project.group_project_manager"/>
+
+	
+</odoo>

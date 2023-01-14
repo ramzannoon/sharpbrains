@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<odoo>
+
+	<record id="inherit_res_country_form_view" model="ir.ui.view">
+        <field name="name">inherit.res.country.form</field>
+        <field name="model">res.country</field>
+		<field name='inherit_id' ref='base.view_country_form'/>
+        <field name="arch" type="xml">
+            <field name='code' position="after">
+        		<field name='x_region' required="1"/>
+			</field>
+        </field>
+    </record>
+    <!-- Territory Form View -->
+    <record id="res_city_form_view" model="ir.ui.view">
+        <field name="name">res.city.form</field>
+        <field name="model">res.city</field>
+        <field name="arch" type="xml">
+            <form string="City/Territory">
+                <sheet>
+					 <div class="oe_button_box" name="button_box">
+						<button class="oe_stat_button" type="object" name="action_view_work_sites" icon="fa-wrench" width='180px'>
+		                	<field name="worksites_count" class="o_stat_value" widget="statinfo" string="Work Site(s)"/>
+		                </button>
+					</div>
+                    <group>
+                        <group>
+							<field name="country_id"/>
+                            <field name="state_id"/>
+							<field name="name"/>
+                        </group>
+                    </group>
+					<group>
+						<field name="primary_assignment_id"/>
+					</group>
+                    <notebook>
+                        <page string="Field Service Workers">
+                            <field name="employee_ids">
+                                <tree>
+                                    <field name="name"/>
+                                    <!--<field name="job_id"
+                                           widget="many2many_tags"/>-->
+                                    <field name="phone"/>
+                                    <field name="work_email"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_res_city" model="ir.actions.act_window">
+        <field name="name">City/Territories</field>
+        <field name="res_model">res.city</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+
+	<record model="ir.ui.view" id="view_hr_jobs_requirements_form">
+        <field name="name">hr.jobs.requirements.form</field>
+        <field name="model">hr.jobs.requirements</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Skill Set">
+				<sheet>
+					<center>
+						<field name="name" nolabel='1'/>
+					
+					</center>
+                    <group colspan="4" col="4">
+						<field name="sequence" required = "1"/>
+						<field name="type" required = "1"/>
+                    </group>
+                    <group colspan="2" col="2">
+                    	<field name="category" required = "1"/>
+                    	<field name="skill" required = "1"/>
+                    </group>
+				</sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+			</form>
+        </field>	
+	</record>
+	
+	
+	<record id="view_hr_jobs_requirements_tree" model="ir.ui.view">
+		<field name="name">hr.jobs.requirements.tree</field>
+		<field name="model">hr.jobs.requirements</field>
+		<field name="arch" type="xml">
+			<tree string="Skill Sets">
+				<field name="sequence" required = "1"/>
+        		<field name="name"/>
+				<field name="type" required = "1"/>
+            	<field name="category" required = "1"/>
+            	<field name="skill" required = "1"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="action_hr_jobs_requirements">
+        <field name="name">Skill Sets</field>
+        <field name="res_model">hr.jobs.requirements</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first Skill Sets</p>
+        </field>
+    </record>
+	<record model="ir.ui.view" id="view_hr_jobs_internal_evaluation_form">
+        <field name="name">hr.jobs.internal.evaluation.form</field>
+        <field name="model">hr.jobs.internal.evaluation</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Internal Evaluation">
+				<sheet>
+					
+                    <group colspan="4" col="4">
+						<field name="sequence" required = "1"/>
+						<field name="internal_evalaution" required = "1"/>
+                    </group>
+                   
+				</sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+			</form>
+        </field>	
+	</record>
+	
+	
+	<record id="view_hr_jobs_internal_evaluation_tree" model="ir.ui.view">
+		<field name="name">hr.jobs.internal.evaluation.tree</field>
+		<field name="model">hr.jobs.internal.evaluation</field>
+		<field name="arch" type="xml">
+			<tree string="Internal Evaluation">
+			
+			
+			
+						<field name="sequence"/>
+						<field name="internal_evalaution" />
+                
+               
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="action_hr_jobs_internal_evaluation">
+        <field name="name">Internal Evaluation</field>
+        <field name="res_model">hr.jobs.internal.evaluation</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first Internal Evaluation</p>
+        </field>
+    </record>
+
+	<record model="ir.ui.view" id="view_hr_jobs_documents_form">
+        <field name="name">hr.jobs.documents.form</field>
+        <field name="model">hr.jobs.documents</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Documents">
+				<sheet>
+					
+                    <group colspan="4" col="4">
+						<field name="sequence" required = "1"/>
+						<field name="dcouments" required = "1"/>
+                    </group>
+                   
+				</sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+
+			</form>
+        </field>	
+	</record>
+	
+	
+	<record id="view_hr_jobs_documents_tree" model="ir.ui.view">
+		<field name="name">hr.jobs.documents.tree</field>
+		<field name="model">hr.jobs.documents</field>
+		<field name="arch" type="xml">
+			<tree string="Documents">
+			
+			
+			
+						<field name="sequence"/>
+						<field name="dcouments"/>
+                
+               
+			</tree>
+		</field>
+	</record>
+	
+	<record model="ir.actions.act_window" id="action_hr_jobs_documents">
+        <field name="name">Documents</field>
+        <field name="res_model">hr.jobs.documents</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+                    <p class="oe_view_nocontent_create">Create the first Documents</p>
+        </field>
+    </record>
+
+	
+
+</odoo>

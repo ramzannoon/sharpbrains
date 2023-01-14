@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	
+	<record model="ir.ui.view" id="inherit_project_task_type_view_form">
+        <field name="name">inherit.project.task.type.form</field>
+        <field name="model">project.task.type</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="project.task_type_edit"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='name']" position="after">
+				<field name="type"/>
+			</xpath>
+        </field>
+	</record>
+	
+	<record model="ir.ui.view" id="inherit_project_task_create_timesheet_form">
+        <field name="name">inherit.project.task.create.timesheet.form</field>
+        <field name="model">project.task.create.timesheet</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="hr_timesheet.project_task_create_timesheet_view_form"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//field[@name='description']" position="after">
+				<field name="start_date"/>
+				<field name="end_date"/>
+			</xpath>
+        </field>
+	</record>
+	
+	<record model="ir.ui.view" id="inherit_project_project_view_form">
+        <field name="name">inherit.project.project.form</field>
+        <field name="model">project.project</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="project.edit_project"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//button[@name='attachment_tree_view']" position='before'>
+				<button class="oe_stat_button" type="object" name="action_view_worksite" icon="fa-building" width='180px'>
+                	<field name="worksite_count" class="o_stat_value" widget="statinfo" string="Worksite(s)"/>
+                </button>
+
+			</xpath>
+			<field name="partner_id" position="replace">
+			</field>
+			<field name="partner_phone" position="replace">
+			</field>
+			<field name="partner_email" position="replace">
+			</field>
+		
+			<xpath expr="//notebook" position="before">
+				<group>
+					<field name="project_type"/>
+					<field name="opportunity_id"/>
+					<field name="misc_project"/>
+				</group>
+				<group colspan="4" col="4">
+					<field name="partner_id" attrs="{'required':[('misc_project','=',False)]}"/>
+					<field name="partner_invoice_id" attrs="{'required':[('misc_project','=',False)]}"/>
+					
+					<field name="partner_phone" />
+					<field name="partner_email"/>
+					
+        			<field name="pc"/>
+        			<field name="sdm"/>
+        			<field name="client_sdm"/>
+        		</group>
+			</xpath>
+        </field>
+	</record>
+	 <record id="inherit_resource_calendar_form" model="ir.ui.view">
+        <field name="name">inherit.resource.calendar.form</field>
+        <field name="model">resource.calendar</field>
+		<field name="inherit_id" ref="resource.resource_calendar_form"></field>
+        <field name="arch" type="xml">
+        	<field name="tz" position="attributes">
+        		<attribute name="invisible">True</attribute>
+			</field>
+		</field>
+	 </record>
+	<record model="ir.ui.view" id="inherit_project_task_view_search">
+        <field name="name">inherit.project.task.search</field>
+        <field name="model">project.task</field>
+        <field name="type">search</field>
+        <field name="inherit_id" ref="project.view_task_search_form"></field>
+        <field name="arch" type="xml">
+			<filter name="my_tasks" position="replace">
+				<filter string="My Service Orders" name="my_tasks" domain="['|','|',('assigned_worker_id.user_id', '=', uid),('backfill_engineer_id.user_id', '=', uid),('secondary_backfill_id.user_id', '=', uid)]"/>
+			</filter>
+        </field>
+	</record>
+	
+	
+	<record model="ir.ui.view" id="view_assign_service_order_wizard_form">
+        <field name="name">assign.service.order.wizard.form</field>
+        <field name="model">assign.service.order.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Assign Service Order">
+                <sheet>
+                    <group>
+						<field name="worker_id" invisible="1"/>
+                        <field name="task_id" invisible="1"/>
+						<field name="employee_id" invisible="1"/>
+                        <field name="type" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="set_assignee" type="object" string="Assign" class="oe_highlight" />
+                    or
+                    <button special="cancel" string="Cancel" />
+                </footer>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="launch_assign_service_order_wizard">
+        <field name="name">Assign Service Order</field>
+        <field name="res_model">assign.service.order.wizard</field>
+
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+	
+	<record model="ir.ui.view" id="inherit_project_task_view_form">
+        <field name="name">inherit.project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="project.view_task_form2"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//button[@name='action_subtask']" position='after'>
+				<button class="oe_stat_button" type="object" name="action_view_schedule_planning" icon="fa-ticket" width='180px'>
+                	<field name="planning_count" class="o_stat_value" widget="statinfo" string="Schedule(s)"/>
+                </button>
+			</xpath>
+			<field name="sequence" position="replace">
+        	</field>
+			<field name="date_deadline" position="replace">
+        	</field>
+			<field name="user_id" position="replace">
+        	</field>
+			<field name="tag_ids" position="replace">
+        	</field>
+			<field name="priority" position="replace">
+        	</field>
+			<field name="project_id" position="before">
+				<field name="sequence" groups="base.group_no_one"/>
+				<field name="number" readonly="1"/>
+				<field name="date_deadline" attrs="{'invisible': [('is_closed', '=', True)]}"/>
+				<field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
+				<field name="sla"/>
+				<field name="dispatcher_id"/>
+				<field name="client_id"/>
+				
+        	</field>
+			<field name="project_id" position="replace">
+        	</field>
+			<field name="description" position="replace">
+        	</field>
+			<page name="description_page" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</page>
+			<page name="extra_info" position="attributes">
+				<attribute name="invisible">1</attribute>
+			</page>
+<!--			<field name="stage_id" position='replace'>
+        	</field>-->
+			<header position="inside">
+			
+<!--				<button name="set_requested" attrs="{'invisible':[('external_task_state','!=','New')]}" type="object" string="Requested" class="oe_highlight"/>
+				<button name="set_assigned" attrs="{'invisible':[('external_task_state','!=','Requested')]}" type="object" string="Assigned" class="oe_highlight"/>
+				<button name="set_confirmed" attrs="{'invisible':[('external_task_state','!=','Assigned')]}" type="object" string="Confirmed" class="oe_highlight"/>
+				<button name="set_completed" attrs="{'invisible':[('external_task_state','!=','In Progress')]}" type="object" string="Complete" class="oe_highlight"/>
+				<button name="set_inprogress" attrs="{'invisible':[('external_task_state','!=','Confirmed')]}" type="object" string="In Progress" class="oe_highlight"/>
+				<button name="set_done" attrs="{'invisible':True}" type="object" string="Confirmed" class="oe_highlight"/>
+				<button name="set_cancelled" attrs="{'invisible':[('external_task_state','=','Cancelled')]}" type="object" string="Cancelled" class="oe_highlight"/>
+				<field name="stage_id" widget="statusbar" attrs="{'invisible':[('task_type','=','Internal Task')]}" domain="[('type','in',['Internal','Both'])]"/><newline />
+				<field name="stage_id" widget="statusbar"/>
+				-->	
+			</header>
+<!--			<field name="stage_id" position="attributes">
+				<attribute name="attrs">{'invisible':[('task_type','=','Service Order')]}</attribute>
+        	</field>-->
+			<field name="partner_id" position="replace">
+        	</field>
+			<field name="sale_line_id" position="replace">
+        	</field>
+			<field name="active" position="before">
+<!--				<field name="external_task_state" invisible="1"/>
+-->				<field name="task_type" required="1"/>
+				<field name="project_id" required="1" domain="[('active', '=', True), ('company_id', '=', company_id)]"/>
+				<field name="user_id" class="o_task_user_field" domain="[('share', '=', False)]"/>
+				<field name="priority" widget="priority"/>
+				<field name="partner_id"/>
+				<field name="site_id" />
+				<field name="city" invisible="1"/>
+<!--				<field name="agreement_id" />
+-->				<field name="team_id" />
+				<field name="sale_order_id"/>
+				<field name="sale_line_id"/>
+				<field name='job_ids' widget='many2many_tags' invisible="1"/>
+			</field>
+			<xpath expr="//group" position="after">
+				<group string="Assignment" name="requirements" col="8" colspan="8" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+						<field name="job_id" domain="[('id','in',job_ids)]" options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>
+						<field name="hourly_rate"/>
+						<field name="day_rate"/>
+						<field name="monthly_rate"/>
+					</group>
+				<group col='6' colspan='6'>
+					<field name="assigned_worker_id"/>
+					<field name="backfill_engineer_id"/>
+					<field name="secondary_backfill_id"/>
+				</group>
+				<group col="2" colspan="2">
+					<field name="service_order_source" required="1"/>
+					<field name="opportunity_id" attrs="{'invisible':[('service_order_source','=','Ticket')],'required':[('service_order_source','=','Opportunity')]}"/>
+					<field name="ticket_id" attrs="{'invisible':[('service_order_source','=','Opportunity')],'required':[('service_order_source','=','Ticket')]}"/>
+					<field name="fte_attendance" invisible="1"/>
+				</group>
+				<group string="Description/Work Summary" name="description">
+					<field name="description" nolabel="1"/>
+				</group>
+				<group string="Action Plan (SoW)" name="action_plan" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<field name="action_plan" nolabel="1"/>
+				</group>
+					
+				<group string="Schedule Details" name="schedule_details" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<field name="tz" invisible="1"/>
+					<group>
+						<field name="tz_offset"/>
+						<field name="start_date" attrs="{'required': [('fte_attendance','=',True)], 'invisible': [('fte_attendance','=',False)]}" force_save="1"/>
+						<field name="end_date" attrs="{'required': [('fte_attendance','=',True)], 'invisible': [('fte_attendance','=',False)]}" force_save="1"/>
+						<field name="start_at" attrs="{'required': [('fte_attendance','=',False)], 'invisible': [('fte_attendance','=',True)]}"/>
+						<field name="end_at" attrs="{'required': [('fte_attendance','=',False)], 'invisible': [('fte_attendance','=',True)]}"/>
+						
+					</group>
+					<!--<field name="work_schedule_ids" nolabel="1" attrs="{'invisible':[('fte_attendance','=',False)]}">
+						<tree editable="bottom">
+							<field name="dayofweek"/>
+							<field name="hour_from" widget="float_time"/>
+							<field name="hour_to" widget="float_time"/>
+						</tree>
+					</field>-->
+					
+					</group>
+					<group >
+						
+						<!--<label for="duration" attrs="{'invisible': ['|',('allday','=',True),('fte_attendance','=',True)]}"/>
+	                    <div attrs="{'invisible': ['|',('allday','=',True),('fte_attendance','=',True)]}">
+	                        <field name="duration" widget="float_time" string="Duration" class="oe_inline"/>
+	                        <span> hours</span>
+	                    </div>
+						<field name="allday" force_save="1" attrs="{'invisible': [('fte_attendance','=',True)]}"/>-->
+						
+					</group>
+				
+				<group string="Available Workers" name="available_workers" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<field name="available_workers" nolabel="1">
+						<tree>
+							<field name="task_id"/>
+							<field name="employee_type"/>
+							<field name="employee_id"/>
+							<field name="job_id"/>
+							<field name="mobile_phone"/>
+							<field name="work_email"/>
+							<field name="day_rate"/>
+							<field name="hourly_rate"/>
+							<field name="total_jobs"/>
+							<field name="avg_rating"/>
+							<field name="last_assignment"/>
+							<field name='task_assigned' invisible="1"/>
+							<button name="%(launch_assign_service_order_wizard)d" context="{'default_employee_id':employee_id,'default_task_id':task_id}" type="action" attrs="{'invisible':[('task_assigned','=',True)]}" string="Assign" class="oe_highlight"/>
+						</tree>
+					</field>
+				</group>
+			</xpath>
+			<page name="extra_info" position="after">
+				<page string="Requirements" name="requirements" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<field name="requirement_ids">
+						<tree editable="bottom">
+							<field name="sequence"/>
+							<field name="skill_type"/>
+							<field name="skill_id"/>
+						</tree>
+					</field>
+				</page>
+				<page string="Instruction" name="instruction" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<group string="Required Material" name="required_material">
+						<field name="required_material" nolabel="1"/>
+					</group>
+					<group string="Work Instruction" name="work_instruction">
+						<field name="work_instruction" nolabel="1"/>
+					</group>
+					<group string="Site Instruction" name="site_instruction">
+						<field name="site_instruction" nolabel="1"/>
+					</group>
+				</page>
+			</page>
+
+			<xpath expr="//notebook" position="after">
+				<group attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<field name="rating" widget="priority"/>
+				</group>
+				<group string="Resolution Notes" name="resolution_notes" attrs="{'invisible':[('task_type','!=','Service Order')]}">
+					<field name="resolution_notes" nolabel="1"/>
+				</group>	
+			</xpath>
+			<!--<xpath expr="//notebook/page" position="before">
+				<group>
+					<field name="project_type"/>
+					<field name="opportunity_id"/>
+					<field name="misc_project"/>
+				</group>
+			</xpath>-->
+        </field>
+	</record>
+	
+	<!--<record id="project_task_view_map" model="ir.ui.view">
+            <field name="name">project.task.view.map</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <map res_partner="partner_id">
+                    <field name="sit_partner_id" string="Work Order"/>
+                </map>
+            </field>
+    </record>-->
+	
+	<record id="view_project_team_form" model="ir.ui.view">
+        <field name="name">project.team.form</field>
+        <field name="model">project.team</field>
+        <field name="arch" type="xml">
+            <form string="Work Order Team">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"
+                               string="Team Name"/>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="description" colspan="2"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="company_id"
+                                   options="{'no_create': True}"
+                                   groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                </sheet>
+               
+            </form>
+        </field>
+    </record>
+
+    <record id="view_project_team_tree" model="ir.ui.view">
+        <field name="name">project.team.tree</field>
+        <field name="model">project.team</field>
+        <field name="arch" type="xml">
+            <tree string="Work Order Team">
+                <field name="sequence" widget="handle"
+                       groups="base.group_no_one"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="company_id"
+                       groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="action_project_team" model="ir.actions.act_window">
+        <field name="name">Work Order Teams</field>
+        <field name="res_model">project.team</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new team
+            </p>
+        </field>
+    </record>
+    
+	<record model="ir.ui.view" id="view_sb_fte_attendance_form">
+        <field name="name">sb.fte.attendance.form</field>
+        <field name="model">sb.fte.attendance</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Assign Service Order" width="500" height="400">
+                <sheet>
+		            <center>
+						<h1>
+		                    <field name="employee_id" readonly="1"/>
+		                </h1>
+					</center>
+            <group colspan="2" col="2">
+				
+                <field name="project_id" />
+				<field name="task_id" />
+                <field name="display_timer_start_primary" invisible="1"/>
+				<field name="display_timer_start_secondary" invisible="1"/>
+				<field name="display_timer_stop" invisible="1"/>
+				<field name="display_timer_start" invisible="1"/>
+            </group>
+					<center>
+						
+				 		<button name="start_timer" width="120" height="100" type="object" string="Check In" attrs="{'invisible':[('display_timer_stop','=',True)]}" class="oe_highlight" icon="fa-sign-in"/>
+						<button name="start_stop" width="120" height="100" type="object" string="Check Out" attrs="{'invisible':[('display_timer_stop','=',False)]}" class="oe_highlight" icon="fa-sign-out"/>
+            		</center>    
+			</sheet>
+
+            </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_sb_fte_attendance">
+        <field name="name">Check In / Check Out</field>
+        <field name="res_model">sb.fte.attendance</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+	<menuitem id="menu_sb_fte_attendance" name="Check In / Check Out" web_icon="sharp_brains,static/description/checkin.PNG" sequence="1" groups="base.group_user,base.group_erp_manager" action="action_sb_fte_attendance"/>
+	
+	
+	<record model="ir.ui.view" id="inherit_timesheet_project_task_view_form">
+        <field name="name">inherit.timesheet.project.task.form</field>
+        <field name="model">project.task</field>
+        <field name="type">form</field>
+        <field name="inherit_id" ref="hr_timesheet.view_task_form2_inherited"></field>
+        <field name="arch" type="xml">
+			<xpath expr="//page/field[@name='timesheet_ids']/tree/field[@name='date']" position="after">
+				<field name="start_date" optional="hide" readonly="1"/>
+				<field name="end_date" optional="hide" readonly="1"/>
+				<field name='actual_duration' widget="timesheet_uom" optional="hide"/>
+			</xpath>
+        </field>
+	</record>
+	
+<!--	 <record id="sharp_brains_project_task_timer" model="ir.actions.client">
+        <field name="name">Start Timer</field>
+        <field name="tag">sharp_brains_project_task_timer</field>
+        <field name="target">main</field>
+    </record>
+	
+	    <menuitem id="menu_sharp_brains_project_task_timer" name="Check In / Check Out" parent="project.menu_main_pm" sequence="1" groups="base.group_user,base.group_erp_manager" action="sharp_brains_project_task_timer"/>
+-->
+</odoo>
