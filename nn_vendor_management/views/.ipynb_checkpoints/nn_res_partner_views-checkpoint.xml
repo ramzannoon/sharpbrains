@@ -1,0 +1,92 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+      
+   
+      <record model="ir.ui.view" id="view_nn_res_partner_form">
+        <field name="name">nn.res.partner.form</field>
+        <field name="model">nn.res.partner</field>
+        <field name="arch" type="xml">
+            <form string="Material Request">
+            <header>               
+            </header>
+            <sheet>
+                <div class="oe_edit_only">
+                    <label for="name" class="oe_inline"/>
+                </div>
+                <h1>
+                    <field name="name" class="oe_inline" />
+                </h1>
+                <group>
+                    <group>
+                        <field name="vendor_company" />
+                        <field name="poc" />
+                        <field name="email" />
+                        <field name="phone" />
+                        <field name="company_id" groups="base.group_multi_company" widget="selection" />
+                    </group>
+                    <group>
+                        <field name="rate"/>
+                        <field name="remarks"/>
+                        <field name="region"/>
+                        <field name="city_id"/>
+                        <field name="country_id" />
+                    </group>
+                </group>
+                
+            </sheet>
+            
+            </form>
+        </field>
+    </record>  
+      
+      
+    <record model="ir.ui.view" id="view_vendor_management_tree">
+        <field name="name">nn.res.partner.tree</field>
+        <field name="model">nn.res.partner</field>
+        <field name="arch" type="xml">
+            <tree string="Vendor Management">
+                <field name="name"/>
+                <field name="vendor_company"/>
+                <field name="poc"/>
+                <field name="email"/>
+                <field name="phone" />
+                <field name="country_id"/>
+                <field name="company_id"/>
+            </tree>
+        </field>
+    </record>   
+      
+    <record model="ir.actions.act_window" id="action_contractor_screen">
+        <field name="name">Vendor Management</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">nn.res.partner</field>
+        <field name="binding_view_types">form</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{}</field>
+        <field name="domain">[]</field>
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to start a new vendor management.
+          </p><p>
+        
+          </p>
+        </field>
+    </record>
+
+      
+     <menuitem id="menu_nn_vendor_management"
+        name="Vendor"
+        web_icon="nn_vendor_management,static/description/icon.png"       
+        groups="nn_vendor_management.group_vendor_management_user"
+        /> 
+      
+      <menuitem id="menu_nn_contractor_screen"
+        name="Contractor"
+        action="action_contractor_screen" sequence="1"
+        /> 
+      
+      
+
+  </data>
+</odoo>

@@ -1,0 +1,10 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+      
+   
+      <record id="group_vendor_management_user" model="res.groups">
+        <field name="name">Allow Vendor Management</field>
+    </record>
+  </data>
+</odoo>
